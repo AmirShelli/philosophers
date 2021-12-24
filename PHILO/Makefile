@@ -12,7 +12,7 @@ INCLUDES = -I ./inc
 CC = gcc -Wall -Werror -Wextra
 
 $(NAME): $(OBJS)
-	@$(CC) $(OBJS) -o $(NAME)
+	@$(CC) -pthread $(OBJS) -o $(NAME)
 
 bonus: $(BONUS_OBJS)
 	@$(CC) $(INCLUDES) $(BONUS_OBJS) -o $(BONUS)
