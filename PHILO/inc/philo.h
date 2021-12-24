@@ -10,6 +10,7 @@ typedef struct s_needed
 	pthread_mutex_t fork[2];
 	int eating;
 	int sleeping;
+	int philosopher;
 }	t_needed;
 
 #endif

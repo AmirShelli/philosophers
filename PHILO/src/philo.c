@@ -1,5 +1,6 @@
 #include "../inc/philo.h"
 #include <pthread.h>
+#include <stdio.h>
 
 t_needed life_init(int argc, char *argv[])
 {
@@ -25,8 +26,16 @@ void *test(void *args)
 	t_needed *life;
 
 	life = args;
-	printf("I'm inside the thread, sleeping is %d\n", life->sleeping);
-	life->sleeping++;
+	if(pthread_mutex_lock(&life->fork[0]) != 0) //put in a func or smth
+		puts("can't lock!!!");
+	printf("philosopher %d is picking first fork.\n", life->philosopher);
+	if(pthread_mutex_lock(&life->fork[1]) != 0)
+		puts("can't lock!!!");
+	printf("philosopher %d is picking second fork.\n", life->philosopher);
+	printf("philosopher %d is eating.\n", life->philosopher);
+	pthread_mutex_unlock(&life->fork[0]);
+	pthread_mutex_unlock(&life->fork[1]);
+
 	// free args?
 	return(NULL);
 }
@@ -34,8 +43,18 @@ void *test(void *args)
 int main(int argc, char *argv[])
 {
 	pthread_t id[5];
+	int philo_count;
 	t_needed life = life_init(argc, argv);
-	pthread_create(&id[0], NULL, &test, &life);
+	while(1) //checks deaths
+	{	
+		philo_count = 1;
+		while(philo_count++ < 5)
+			pthread_create(&id[philo_count], NULL, &test, &life);
+		philo_count = 1;
+		while(philo_count++ < 5)
+			pthread_join(id[philo_count], NULL);
+	}
+	
 	pthread_join(id[0], NULL);
 	printf("I'm outside the thread, sleeping is %d\n", life.sleeping);
 	return (0);
