@@ -44,8 +44,9 @@ int main(int argc, char *argv[])
 {
 	pthread_t id[5];
 	int philo_count;
+	int check_death = 3;
 	t_needed life = life_init(argc, argv);
-	while(1) //checks deaths
+	while(check_death--) //checks deaths
 	{	
 		philo_count = 1;
 		while(philo_count++ < 5)
