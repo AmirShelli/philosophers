@@ -26,37 +26,37 @@ void *test(void *args)
 	t_needed *life;
 
 	life = args;
-	if(pthread_mutex_lock(&life->fork[0]) != 0) //put in a func or smth
-		puts("can't lock!!!");
-	printf("philosopher %d is picking first fork.\n", life->philosopher);
-	if(pthread_mutex_lock(&life->fork[1]) != 0)
-		puts("can't lock!!!");
-	printf("philosopher %d is picking second fork.\n", life->philosopher);
-	printf("philosopher %d is eating.\n", life->philosopher);
+	pthread_mutex_lock(&life->fork[0]);
+	printf("philosopher %d is picking" "\033[0;31m" " first fork" "\033[0m" ".\n", life->philosopher);
+	pthread_mutex_lock(&life->fork[1]);
+	printf("philosopher %d is picking" "\033[0;31m" " second fork" "\033[0m" ".\n", life->philosopher);
+	printf("philosopher %d is" "\033[0;32m" " eating" "\033[0m" ".\n", life->philosopher);
+	// while() count eating, make a funct?
 	pthread_mutex_unlock(&life->fork[0]);
 	pthread_mutex_unlock(&life->fork[1]);
-
 	// free args?
 	return(NULL);
 }
 
 int main(int argc, char *argv[])
 {
-	pthread_t id[5];
+	pthread_t id[6];
 	int philo_count;
 	int check_death = 3;
 	t_needed life = life_init(argc, argv);
-	while(check_death--) //checks deaths
+	while(check_death--)
 	{	
-		philo_count = 1;
-		while(philo_count++ < 5)
-			pthread_create(&id[philo_count], NULL, &test, &life);
-		philo_count = 1;
-		while(philo_count++ < 5)
-			pthread_join(id[philo_count], NULL);
+		philo_count = 0;
+		while(++philo_count < 6)
+		{	printf("supposed to be philo %d\n", philo_count);
+			life.philosopher = philo_count;
+			pthread_create(&id[philo_count - 1], NULL, &test, &life);
+			// pthread_join(id[philo_count - 1], NULL);
+		}
+
+		philo_count = 0;
+		while(++philo_count < 6)
+			pthread_join(id[philo_count - 1], NULL);
 	}
-	
-	pthread_join(id[0], NULL);
-	printf("I'm outside the thread, sleeping is %d\n", life.sleeping);
 	return (0);
 }
