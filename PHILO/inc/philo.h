@@ -1,8 +1,9 @@
 #ifndef PHILO_H
 # define PHILO_H
 # include <stdio.h>
-# include <pthread.h> 
 # include <stdlib.h>
+#include <unistd.h>
+#include <pthread.h>
 
 typedef struct s_needed
 {
@@ -12,5 +13,9 @@ typedef struct s_needed
 	int sleeping;
 	int philosopher;
 }	t_needed;
+
+int *parsed(int argc, char *argv[]);
+
+int		ft_atoi(const char *str);
 
 #endif
