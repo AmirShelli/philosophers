@@ -40,10 +40,13 @@ void *test(void *args)
 
 int main(int argc, char *argv[])
 {
+	int	*args;
 	pthread_t id[6];
 	int philo_count;
 	int check_death = 3;
 	t_needed life = life_init(argc, argv);
+	
+	args = parsed(argc, argv); // don't forget to free.
 	while(check_death--)
 	{	
 		philo_count = 0;
