@@ -23,24 +23,20 @@ t_needed *life_init(int argc, char *argv[], int philosopher)
 
 void *test(void *args)
 {
-	t_needed *life;
+	t_hello *life;
 
 
 	life = args;
-	if(!pthread_mutex_lock(&life->fork[0]))
+	if(!pthread_mutex_lock(&life->fork[0]) && !pthread_mutex_lock(&life->fork[1]))
 	{	
-		printf("philosopher %d is picking" "\033[0;31m" " first fork" "\033[0m" ".\n", life->philosopher);
-		if(!pthread_mutex_lock(&life->fork[1]))
-		{	
-			printf("philosopher %d is picking" "\033[0;31m" " second fork" "\033[0m" ".\n", life->philosopher);
-			printf("philosopher %d is" "\033[0;32m" " eating" "\033[0m" ".\n", life->philosopher);
-		}
+		printf("philosopher %d is picking" "\033[0;31m" " first fork" "\033[0m" ".\n", life->life->philosopher);
+		printf("philosopher %d is picking" "\033[0;31m" " second fork" "\033[0m" ".\n", life->life->philosopher);
+		printf("philosopher %d is" "\033[0;32m" " eating" "\033[0m" ".\n", life->life->philosopher);
+
 	}
 	else {puts("hey\n");}
 	// while() count eating, make a funct?
-		
-	// free args?
-	free(args);
+	free(life->life);
 	pthread_mutex_unlock(&life->fork[0]);
 	pthread_mutex_unlock(&life->fork[1]);
 	return(NULL);
@@ -52,21 +48,20 @@ int main(int argc, char *argv[])
 	pthread_t id[6];
 	int philo_count;
 	int check_death = 1;
-	t_needed *life; 
-	pthread_mutex_t temp[2];
+	t_hello *philosophers;
 
 	// args = parsed(argc, argv); // don't forget to free.
-	pthread_mutex_init(&temp[0], NULL);
-	pthread_mutex_init(&temp[1], NULL);
+	philosophers = malloc(sizeof(t_hello));
+	pthread_mutex_init(&philosophers->fork[0], NULL);
+	pthread_mutex_init(&philosophers->fork[1], NULL);
 	while(check_death--)
 	{	
 		philo_count = 0;
 		while(++philo_count < 6)
 		{	
-			life = life_init(argc, argv, philo_count);
-			life->fork[0] = temp[0];
-			life->fork[1] = temp[1];
-			pthread_create(&id[philo_count - 1], NULL, &test, life);
+			philosophers->life = life_init(argc, argv, philo_count);
+			printf("nya %d\n", philo_count);
+			pthread_create(&id[philo_count - 1], NULL, &test, philosophers);
 		}
 
 		philo_count = 0;
