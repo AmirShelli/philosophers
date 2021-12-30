@@ -28,35 +28,44 @@ void *test(void *args)
 
 	life = args;
 	if(!pthread_mutex_lock(&life->fork[0]))
-	{printf("philosopher %d is picking" "\033[0;31m" " first fork" "\033[0m" ".\n", life->philosopher);
-	pthread_mutex_lock(&life->fork[1]);
-	printf("philosopher %d is picking" "\033[0;31m" " second fork" "\033[0m" ".\n", life->philosopher);
-	printf("philosopher %d is" "\033[0;32m" " eating" "\033[0m" ".\n", life->philosopher);
+	{	
+		printf("philosopher %d is picking" "\033[0;31m" " first fork" "\033[0m" ".\n", life->philosopher);
+		if(!pthread_mutex_lock(&life->fork[1]))
+		{	
+			printf("philosopher %d is picking" "\033[0;31m" " second fork" "\033[0m" ".\n", life->philosopher);
+			printf("philosopher %d is" "\033[0;32m" " eating" "\033[0m" ".\n", life->philosopher);
+		}
+	}
+	else {puts("hey\n");}
 	// while() count eating, make a funct?
-	pthread_mutex_unlock(&life->fork[0]);
-	pthread_mutex_unlock(&life->fork[1]);}
+		
 	// free args?
 	free(args);
+	pthread_mutex_unlock(&life->fork[0]);
+	pthread_mutex_unlock(&life->fork[1]);
 	return(NULL);
 }
 
 int main(int argc, char *argv[])
 {
-	int	*args;
+	// int	*args;
 	pthread_t id[6];
 	int philo_count;
 	int check_death = 1;
 	t_needed *life; 
+	pthread_mutex_t temp[2];
 
-	args = parsed(argc, argv); // don't forget to free.
+	// args = parsed(argc, argv); // don't forget to free.
+	pthread_mutex_init(&temp[0], NULL);
+	pthread_mutex_init(&temp[1], NULL);
 	while(check_death--)
 	{	
 		philo_count = 0;
 		while(++philo_count < 6)
 		{	
 			life = life_init(argc, argv, philo_count);
-			pthread_mutex_init(&life->fork[0], NULL);
-			pthread_mutex_init(&life->fork[1], NULL);
+			life->fork[0] = temp[0];
+			life->fork[1] = temp[1];
 			pthread_create(&id[philo_count - 1], NULL, &test, life);
 		}
 
