@@ -12,14 +12,11 @@ typedef struct s_needed
 	int eating;
 	int sleeping;
 	int philosopher;
+	int death;
+	int *died;
+	pthread_mutex_t **fork;
 }	t_needed;
 
-
-typedef struct s_hello
-{
-	pthread_mutex_t fork[2];
-	t_needed *life;
-}	t_hello;
 int *parsed(int argc, char *argv[]);
 
 int		ft_atoi(const char *str);
