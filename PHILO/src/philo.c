@@ -30,7 +30,9 @@ void *ded(void *args)
 	t_needed *life;
 
 	life = args;
-	while(--life->death); 
+	while(life->death)
+		if(life->eating == 0)
+			life->death--; 
 	if(!life->death && *(life->died))
 	{	
 		*(life->died) = 0;
@@ -53,16 +55,17 @@ void *test(void *args)
 	while(*(life->died))
 	{
 		pthread_mutex_lock(life->fork[0]);
-		life->death = 400;
 		pthread_mutex_lock(life->fork[1]);
+		life->death = 400;
+		life->eating = 1;
 		if(*(life->died))
-		{
-		printf("philosopher %d is picking" "\033[0;31m" " first fork" "\033[0m" ".\n", life->philosopher);
+		{printf("philosopher %d is picking" "\033[0;31m" " first fork" "\033[0m" ".\n", life->philosopher);
 		printf("philosopher %d is picking" "\033[0;31m" " second fork" "\033[0m" ".\n", life->philosopher);
 		printf("philosopher %d is" "\033[0;32m" " eating" "\033[0m" ".\n", life->philosopher);
 		while(eating--);}
 		pthread_mutex_unlock(life->fork[0]);
 		pthread_mutex_unlock(life->fork[1]);
+		life->eating = 0;
 		if(*(life->died))
 		{printf("philosopher %d is " "\033[0;37m" "sleeping" "\033[0m" ".\n", life->philosopher);
 		while(sleeping--);}
