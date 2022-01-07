@@ -14,11 +14,19 @@ typedef struct s_needed
 	int philosopher;
 	int death;
 	int *died;
-	pthread_mutex_t **fork;
 }	t_needed;
+
+typedef struct s_forks
+{
+	pthread_mutex_t fork;
+	struct s_forks *next; 
+	t_needed *philosopher;
+} t_forks;
 
 int *parsed(int argc, char *argv[]);
 
 int		ft_atoi(const char *str);
-
+t_needed *life_init(int philosopher, int *died);
+// pthread_mutex_t *find_fork(int p, t_forks *f);
+void	new_philosopher(int p, int *died, t_forks **f);
 #endif
