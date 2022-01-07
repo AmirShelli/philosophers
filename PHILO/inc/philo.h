@@ -17,19 +17,25 @@ typedef struct s_needed
 	pthread_mutex_t is_eating;
 	int death;
 	int *died;
+	long int starting_time;
 }	t_needed;
 
 typedef struct s_forks
 {
 	pthread_mutex_t fork;
+	int free;
 	struct s_forks *next; 
 	t_needed *philosopher;
 } t_forks;
 
+t_forks *get_next_odd(t_forks *forks);
+t_forks *get_next_even(t_forks *forks);
+
+
 int *parsed(int argc, char *argv[]);
 
 int		ft_atoi(const char *str);
-t_needed *life_init(int philosopher, int *died);
+t_needed *life_init(int philosopher, int *died, long int s);
 // pthread_mutex_t *find_fork(int p, t_forks *f);
-void	new_philosopher(int p, int *died, t_forks **f);
+void	new_philosopher(int p, int *d, t_forks **f, long int s);
 #endif

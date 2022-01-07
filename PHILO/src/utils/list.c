@@ -15,7 +15,7 @@
 // 	return (NULL);
 // }
 
-void	new_philosopher(int philosopher, int *died, t_forks **head)
+void	new_philosopher(int philosopher, int *died, t_forks **head, long int starting_time)
 {
 	t_forks *sample;
 	t_forks *temp;
@@ -23,7 +23,8 @@ void	new_philosopher(int philosopher, int *died, t_forks **head)
 	sample = malloc(sizeof(t_forks));
 	temp = *head;
 	sample->next = *head;
-	sample->philosopher = life_init(philosopher, died);
+	sample->philosopher = life_init(philosopher, died, starting_time);
+	sample->free = 1;
 	pthread_mutex_init(&sample->fork, NULL);
 
 	if (*head != NULL) 
