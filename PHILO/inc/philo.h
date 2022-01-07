@@ -4,6 +4,7 @@
 # include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <sys/time.h>
 
 typedef struct s_needed
 {
@@ -12,6 +13,8 @@ typedef struct s_needed
 	int eating;
 	int sleeping;
 	int philosopher;
+	struct timeval last_meal;
+	pthread_mutex_t is_eating;
 	int death;
 	int *died;
 }	t_needed;
