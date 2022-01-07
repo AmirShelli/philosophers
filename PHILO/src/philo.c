@@ -29,8 +29,10 @@ void *ded(void *args)
 
 	life = args;
 	while(life->death)
-		if(life->eating == 0)
+	{	if(life->eating == 0)
 			life->death--; 
+		printf("I'm inside ded eating is %d\n", life->eating);
+	}
 	if(!life->death && *(life->died))
 	{	
 		*(life->died) = 0;
