@@ -15,7 +15,7 @@
 // 	return (NULL);
 // }
 
-void	new_philosopher(int philosopher, int *died, t_forks **head, long int starting_time)
+void	new_philosopher(int philosopher, int *died, t_forks **head, struct timeval starting_time)
 {
 	t_forks *sample;
 	t_forks *temp;
@@ -26,7 +26,6 @@ void	new_philosopher(int philosopher, int *died, t_forks **head, long int starti
 	sample->philosopher = life_init(philosopher, died, starting_time);
 	sample->free = 1;
 	pthread_mutex_init(&sample->fork, NULL);
-
 	if (*head != NULL) 
 	{
         while (temp->next != *head)

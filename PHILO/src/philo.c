@@ -1,5 +1,5 @@
 #include "../inc/philo.h"
-#include <bits/types/struct_timeval.h>
+// #include <bits/types/struct_timeval.h>
 #include <pthread.h>
 #include <stdio.h>
 #include <sys/time.h>
@@ -7,12 +7,11 @@
 
 int get_time_passed(t_needed *life, struct timeval time)
 {
-	long int ending_time;
-
-	ending_time = (time.tv_usec);
-	printf("starting time is %ld ending is %ld for %d.\n",
-				life->starting_time, ending_time, life->philosopher);
-	return (ending_time - life->starting_time);
+	long long int ending_time;
+	long long int starting_time;
+	ending_time = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+	starting_time = (life->starting_time.tv_sec * 1000) + (life->starting_time.tv_usec / 1000);
+	return (ending_time - starting_time);
 }
 
 long int since_last_meal(t_needed *life)
@@ -21,15 +20,13 @@ long int since_last_meal(t_needed *life)
 	long int current;
 	long int meal_time;
 
-	puts("meal time");
 	meal_time = get_time_passed(life, life->last_meal);
-	puts("current");
 	gettimeofday(&current_time, NULL);
 	current = get_time_passed(life, current_time);
 	return (current - meal_time);
 }
 
-t_needed *life_init(int philosopher, int *died, long int starting_time)
+t_needed *life_init(int philosopher, int *died, struct timeval starting_time)
 {
 	t_needed 	*sample;
 	int 		i;
@@ -43,12 +40,13 @@ t_needed *life_init(int philosopher, int *died, long int starting_time)
 	// }
 	pthread_mutex_init(&sample->is_eating, NULL);
 	sample->starting_time = starting_time;
+	sample->last_meal = starting_time;
 	sample->died = died;
 	sample->philosopher = philosopher;
 	sample->arguments[i - 1] = -1;
-	sample->sleeping = 0;
-	sample->eating = 0;
-	sample->death = 400;
+	// sample->sleeping = 0;
+	// sample->eating = 0;
+	sample->death = 150;
 	return (sample);
 }
 
@@ -61,7 +59,7 @@ void *ded(void *args)
 	while(*(life->died))
 	{
 		pthread_mutex_lock(&life->is_eating); 
-		if(since_last_meal(life) <= life->death && *(life->died))
+		if(since_last_meal(life) >= life->death && *(life->died))
 		{	
 			*(life->died) = 0; 
 			gettimeofday(&current, NULL);
@@ -97,7 +95,7 @@ void *test(void *args)
 			printf("philosopher %d is picking" "\033[0;31m" " first fork" "\033[0m" ".\n", life->philosopher->philosopher);
 			printf("philosopher %d is picking" "\033[0;31m" " second fork" "\033[0m" ".\n", life->philosopher->philosopher);
 			printf("philosopher %d is" "\033[0;32m" " eating" "\033[0m" ".\n", life->philosopher->philosopher); 
-			usleep(eating * 1000);
+			usleep(eating * 100);
 			gettimeofday(&(life->philosopher->last_meal), NULL);
 			pthread_mutex_unlock(&life->philosopher->is_eating);
 		}
@@ -109,7 +107,7 @@ void *test(void *args)
 		if(*(life->philosopher->died))
 		{
 			printf("philosopher %d is " "\033[0;37m" "sleeping" "\033[0m" ".\n", life->philosopher->philosopher);
-			usleep(sleeping * 1000);
+			usleep(sleeping * 10);
 		}
 		if(*(life->philosopher->died))
 			printf("philosopher %d is " "\033[0;35m" "thinking" "\033[0m" ".\n", life->philosopher->philosopher);
@@ -123,7 +121,7 @@ int main(int argc, char *argv[])
 	(void) argc;
 	(void) argv;
 	struct timeval starting_time;
-	int philos = 10;
+	int philos = 6;
 	pthread_t id[philos];
 	pthread_t idd[philos];
 	int philo_count;
@@ -136,7 +134,7 @@ int main(int argc, char *argv[])
 	gettimeofday(&starting_time, NULL);
 	while(++philo_count < philos)
 	{	
-		new_philosopher(philo_count, &died, &forks, (starting_time.tv_usec)); 
+		new_philosopher(philo_count, &died, &forks, starting_time); 
 		pthread_create(&id[philo_count - 1], NULL, &test, forks);
 		pthread_create(&idd[philo_count - 1], NULL, &ded, forks->philosopher);
 	}
