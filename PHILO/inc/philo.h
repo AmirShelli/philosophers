@@ -35,13 +35,15 @@ typedef struct s_kitchen
 	int				options[6];
 } t_kitchen;
 
-t_kitchen 		*get_next_odd(t_kitchen *forks);
-t_kitchen 		*get_next_even(t_kitchen *forks);
+t_kitchen		*create_kitchen(int argc, char *argv[]);
+void			new_philosopher(int philo_counter, t_philosopher **head);
 
+int				get_time_passed(t_kitchen *life, struct timeval *time);
+long int		since_last_meal(t_kitchen *life);
 
-int 			*parsed(int argc, char *argv[]);
+void 			*check_death(void *args);
+void			*routine(void *args);
 
+t_philosopher 		*get_next_fork(t_kitchen *forks, int flag);
 int				ft_atoi(const char *str);
-t_philosopher 	*life_init(int philosopher, int *died, struct timeval starting_time);
-void			new_philosopher(int philosopher, int *died, t_kitchen **head, struct timeval starting_time);
 #endif

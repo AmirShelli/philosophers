@@ -1,20 +1,24 @@
 #include "../../inc/philo.h"
 
 
-void create_kitchen(t_kitchen *kitchen, int argc, char *argv[])
+t_kitchen *create_kitchen(int argc, char *argv[])
 {
+	t_kitchen *kitchen;
 	int i;
 
 	i = 1;
-	kitchen->philosopher = NULL;
-	gettimeofday(&kitchen->starting_time, NULL);
+	kitchen = malloc(sizeof(t_kitchen));
 	kitchen->someone_died = 0;
 	while(--argc)
 	{
-		kitchen->options[i - 1] = atoi(argv[i++]); // !!! not my atoi !!! delete later
-		// i++;
+		kitchen->options[i - 1] = atoi(argv[i]); // !!! not my atoi !!! delete later
+		i++;
 	}
 	kitchen->options[i - 1] = -1;
+	gettimeofday(&kitchen->starting_time, NULL);
+	kitchen->philosopher = NULL;
+	new_philosopher(0, &kitchen->philosopher);
+	return (kitchen);
 }
 
 void	new_philosopher(int philo_counter, t_philosopher **head)
@@ -26,9 +30,6 @@ void	new_philosopher(int philo_counter, t_philosopher **head)
 	temp = *head;
 	sample->next = *head;
 	sample->philosopher = philo_counter + 1;
-	sample->philo_id = philo_counter;
-	sample->death_id = philo_counter;
-	
 	pthread_mutex_init(&sample->is_eating, NULL);
 	pthread_mutex_init(&sample->fork, NULL);
 	sample->fork_freed = 1;
@@ -41,5 +42,6 @@ void	new_philosopher(int philo_counter, t_philosopher **head)
     }
 	else
         sample->next = sample;
+
 	*head = sample;
 }
