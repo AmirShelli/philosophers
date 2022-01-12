@@ -6,35 +6,42 @@
 # include <pthread.h>
 # include <sys/time.h>
 
-typedef struct s_needed
+enum options
 {
-	int arguments[6];
+	num_of_philosophers,
+	time_to_die,
+	time_to_eat,
+	time_to_sleep,
+	must_eat
+};
 
-	int eating;
-	int sleeping;
-	int philosopher;
+typedef struct s_philosopher
+{
+	struct s_philosopher *next;
+	int 			philosopher;
+	pthread_t 		philo_id;
+	pthread_t 		death_id;
 	pthread_mutex_t is_eating;
-	int death;
-	int *died;
-	struct timeval last_meal;
-	struct timeval starting_time;
-}	t_needed;
-
-typedef struct s_forks
-{
+	struct timeval 	last_meal;
 	pthread_mutex_t fork;
-	int free;
-	struct s_forks *next; 
-	t_needed *philosopher;
-} t_forks;
+	int 			fork_freed;
+}	t_philosopher;
 
-t_forks 	*get_next_odd(t_forks *forks);
-t_forks 	*get_next_even(t_forks *forks);
+typedef struct s_kitchen
+{
+	t_philosopher	*philosopher;
+	struct timeval	starting_time;
+	int 			*someone_died;
+	int				options[6];
+} t_kitchen;
+
+t_kitchen 		*get_next_odd(t_kitchen *forks);
+t_kitchen 		*get_next_even(t_kitchen *forks);
 
 
-int 		*parsed(int argc, char *argv[]);
+int 			*parsed(int argc, char *argv[]);
 
-int			ft_atoi(const char *str);
-t_needed 	*life_init(int philosopher, int *died, struct timeval starting_time);
-void		new_philosopher(int philosopher, int *died, t_forks **head, struct timeval starting_time);
+int				ft_atoi(const char *str);
+t_philosopher 	*life_init(int philosopher, int *died, struct timeval starting_time);
+void			new_philosopher(int philosopher, int *died, t_kitchen **head, struct timeval starting_time);
 #endif
