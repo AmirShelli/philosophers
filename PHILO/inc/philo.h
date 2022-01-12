@@ -35,7 +35,6 @@ t_forks *get_next_even(t_forks *forks);
 int *parsed(int argc, char *argv[]);
 
 int		ft_atoi(const char *str);
-t_needed *life_init(int philosopher, int *died, struct timeval s);
-// pthread_mutex_t *find_fork(int p, t_forks *f);
-void	new_philosopher(int p, int *d, t_forks **f, struct timeval s);
+t_needed *life_init(int philosopher, int *died, struct timeval starting_time);
+void	new_philosopher(int philosopher, int *died, t_forks **head, struct timeval starting_time);
 #endif

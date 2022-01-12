@@ -1,19 +1,4 @@
 #include "../../inc/philo.h"
-#include <pthread.h>
-
-// pthread_mutex_t	*find_fork(int philosopher, t_forks *forks)
-// {
-// 	t_forks *temp;
-
-// 	temp = forks;
-// 	while (temp->next)
-// 	{
-// 		if(philosopher == temp->philosopher)
-// 			return(&temp->fork);
-// 		temp = temp->next;
-// 	}
-// 	return (NULL);
-// }
 
 void	new_philosopher(int philosopher, int *died, t_forks **head, struct timeval starting_time)
 {
