@@ -6,7 +6,7 @@
 /*   By: bharghaz <bharghaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 22:17:46 by bharghaz          #+#    #+#             */
-/*   Updated: 2021/12/22 17:05:42 by bharghaz         ###   ########.fr       */
+/*   Updated: 2022/01/12 16:37:37 by bharghaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int *parsed(int argc, char *argv[])
 	argument = malloc(argc + 1);
 	while(--argc)
 	{
-		argument[i - 1] = atoi(argv[i]); // if negative -> return NULL
+		argument[i - 1] = atoi(argv[i]); // !!! not my atoi !!! delete later
 		i++;
 	}
 	argument[i - 1] = -1;
