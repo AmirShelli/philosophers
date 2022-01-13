@@ -1,11 +1,11 @@
 #include "../../inc/philo.h"
 #include <stdio.h>
 
-t_philosopher *get_next_fork(t_kitchen *kitchen, int flag)
+t_philosopher *get_next_fork(t_philosopher *philosopher, int flag)
 {
 	t_philosopher *temp;
 
-	temp = kitchen->philosopher;
+	temp = philosopher;
 	while(1)
 	{	
 		if(!((temp->philosopher % 2) - flag) && temp->fork_freed)

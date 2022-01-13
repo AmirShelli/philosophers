@@ -20,7 +20,7 @@ void show_insides(t_philosopher *p)
 }
 
 
-int	get_time_passed(t_kitchen *life, struct timeval *time)
+int	get_time_passed(t_dinning *life, struct timeval *time)
 {
 	long long int	ending_time;
 	long long int	starting_time;
@@ -37,40 +37,38 @@ int	get_time_passed(t_kitchen *life, struct timeval *time)
 	return (ending_time - starting_time);
 }
 
-long int	since_last_meal(t_kitchen *life)
+long int	since_last_meal(t_philosopher *life)
 {
 	long int current;
 	long int meal_time;
 
-	meal_time = get_time_passed(life, &(life->philosopher->last_meal));
-	current = get_time_passed(life, NULL);
+	meal_time = get_time_passed(life->dinning, &(life->last_meal));
+	current = get_time_passed(life->dinning, NULL);
 	return (current - meal_time);
 }
 
 int	main(int argc, char *argv[])
 {
-	int				philosopher;
-	t_kitchen 		*kitchen;
-	t_philosopher	*philo_head;
+	int				number_of_philo;
+	t_dinning 		*dinning;
+	t_philosopher	*philosopher;
 
 	//check for errors
-	philosopher = 0;
-	kitchen = create_kitchen(argc, argv);
-	philo_head = kitchen->philosopher;
-	while(philosopher++ < kitchen->options[num_of_philosophers])
+	dinning = create_dinning(argc, argv);
+	philosopher = NULL;
+	while(number_of_philo++ < dinning->options[num_of_philosophers])
 	{	
-		pthread_create(&(kitchen->philosopher->philo_id), NULL, &routine, kitchen);
-		pthread_create(&(kitchen->philosopher->death_id), NULL, &check_death, kitchen);
-		new_philosopher(philosopher, &kitchen->philosopher);
+		new_philosopher(number_of_philo - 1, dinning, &philosopher);
+		pthread_create(&(philosopher->philo_id), NULL, &routine, philosopher);
+		pthread_create(&(philosopher->death_id), NULL, &check_death, philosopher);
 	}
 
-	philosopher = 0;
-	kitchen->philosopher = philo_head;
-	while(philosopher++ < kitchen->options[num_of_philosophers])
+	number_of_philo = 0;
+	while(number_of_philo++ < dinning->options[num_of_philosophers])
 	{	
-		pthread_join(kitchen->philosopher->death_id, NULL);
-		pthread_detach(kitchen->philosopher->death_id);
+		pthread_join(philosopher->death_id, NULL);
+		// pthread_detach(philosopher->death_id);
 	}
-	// free philosophers list and the kitchen as well
+	// free philosophers list and the dinning as well
 	return (0);
 }
