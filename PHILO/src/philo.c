@@ -4,7 +4,20 @@
 #include <sys/time.h>
 // #include <bits/types/struct_timeval.h>
 
-// void show_insides()
+void show_insides(t_philosopher *p)
+{
+	printf("philosopher: %d\n"
+		"id1: %p\n"
+		"id2: %p\n"
+		"is_eating: %p\n"
+		"last_meal: %ld\n"
+		"fork: %p\n"
+		"fork_freed: %d\n\n", p->philosopher, 
+		&p->philo_id, &p->death_id, &p->is_eating,
+		(p->last_meal.tv_sec * 1000) + (p->last_meal.tv_usec / 1000),
+		&p->fork, p->fork_freed);
+	fflush(stdout);
+}
 
 
 int	get_time_passed(t_kitchen *life, struct timeval *time)
@@ -47,7 +60,7 @@ int	main(int argc, char *argv[])
 	while(philosopher++ < kitchen->options[num_of_philosophers])
 	{	
 		pthread_create(&(kitchen->philosopher->philo_id), NULL, &routine, kitchen);
-		// pthread_create(&(kitchen->philosopher->death_id), NULL, &check_death, kitchen);
+		pthread_create(&(kitchen->philosopher->death_id), NULL, &check_death, kitchen);
 		new_philosopher(philosopher, &kitchen->philosopher);
 	}
 
@@ -56,7 +69,7 @@ int	main(int argc, char *argv[])
 	while(philosopher++ < kitchen->options[num_of_philosophers])
 	{	
 		pthread_join(kitchen->philosopher->death_id, NULL);
-		// pthread_detach(kitchen->philosopher->death_id);
+		pthread_detach(kitchen->philosopher->death_id);
 	}
 	// free philosophers list and the kitchen as well
 	return (0);

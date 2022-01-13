@@ -1,4 +1,5 @@
 #include "../../inc/philo.h"
+#include <stdio.h>
 
 
 t_kitchen *create_kitchen(int argc, char *argv[])
@@ -8,7 +9,8 @@ t_kitchen *create_kitchen(int argc, char *argv[])
 
 	i = 1;
 	kitchen = malloc(sizeof(t_kitchen));
-	kitchen->someone_died = 0;
+	kitchen->someone_died = malloc(sizeof(int));
+	*kitchen->someone_died = 1;
 	while(--argc)
 	{
 		kitchen->options[i - 1] = atoi(argv[i]); // !!! not my atoi !!! delete later

@@ -1,4 +1,5 @@
 #include "../inc/philo.h"
+#include <stdio.h>
 
 void *check_death(void *args)
 {
