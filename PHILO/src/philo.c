@@ -56,6 +56,7 @@ int	main(int argc, char *argv[])
 	//check for errors
 	dinning = create_dinning(argc, argv);
 	philosopher = NULL;
+	number_of_philo = 0;
 	while(number_of_philo++ < dinning->options[num_of_philosophers])
 	{	
 		new_philosopher(number_of_philo - 1, dinning, &philosopher);
@@ -67,7 +68,7 @@ int	main(int argc, char *argv[])
 	while(number_of_philo++ < dinning->options[num_of_philosophers])
 	{	
 		pthread_join(philosopher->death_id, NULL);
-		// pthread_detach(philosopher->death_id);
+		pthread_detach(philosopher->death_id);
 	}
 	// free philosophers list and the dinning as well
 	return (0);
