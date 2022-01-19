@@ -1,19 +1,17 @@
 #include "../../inc/philo.h"
-#include <stdio.h>
 
-
-t_dinning *create_dinning(int argc, char *argv[])
+t_dinning	*create_dinning(int argc, char *argv[])
 {
-	t_dinning *dinning;
-	int i;
+	t_dinning	*dinning;
+	int			i;
 
 	i = 1;
 	dinning = malloc(sizeof(t_dinning));
 	dinning->someone_died = malloc(sizeof(int));
 	*dinning->someone_died = 1;
-	while(--argc)
+	while (--argc)
 	{
-		dinning->options[i - 1] = atoi(argv[i]); // !!! not my atoi !!! delete later
+		dinning->options[i - 1] = atoi(argv[i]);
 		i++;
 	}
 	dinning->options[i - 1] = -1;
@@ -21,10 +19,11 @@ t_dinning *create_dinning(int argc, char *argv[])
 	return (dinning);
 }
 
-void	new_philosopher(int philo_counter, t_dinning *dinning, t_philosopher **head)
+void	new_philosopher(int philo_counter, t_dinning *dinning,
+						t_philosopher **head)
 {
-	t_philosopher *sample;
-	t_philosopher *temp;
+	t_philosopher	*sample;
+	t_philosopher	*temp;
 
 	sample = malloc(sizeof(t_philosopher));
 	temp = *head;
@@ -35,13 +34,13 @@ void	new_philosopher(int philo_counter, t_dinning *dinning, t_philosopher **head
 	sample->fork_freed = 1;
 	sample->dinning = dinning;
 	gettimeofday(&sample->last_meal, NULL);
-	if (*head != NULL) 
+	if (*head != NULL)
 	{
-        while (temp->next != *head)
-            temp = temp->next;
-        temp->next = sample;
-    }
+		while (temp->next != *head)
+			temp = temp->next;
+		temp->next = sample;
+	}
 	else
-        sample->next = sample;
+		sample->next = sample;
 	*head = sample;
 }
