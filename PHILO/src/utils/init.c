@@ -1,6 +1,36 @@
 #include "../../inc/philo.h"
 #include <pthread.h>
 
+
+void freeAll(t_philosopher *head)
+{
+	t_philosopher	*tmp;
+
+	tmp = head;
+	while (head->next != NULL)
+    {
+		pthread_mutex_destroy(&head->fork);
+		pthread_mutex_destroy(&head->is_eating);
+		tmp = head;
+		head = head->next;
+		free(tmp);
+    }
+}
+
+t_philosopher	*get_next_fork(t_philosopher *philosopher, int flag)
+{
+	t_philosopher	*temp;
+
+	temp = philosopher;
+	while (1)
+	{
+		if (!((temp->philosopher % 2) - flag) && temp->fork_freed)
+			return (temp);
+		temp = temp->next;
+	}
+	return (NULL);
+}
+
 t_dinning	*create_dinning(int argc, char *argv[])
 {
 	t_dinning	*dinning;
@@ -31,21 +61,6 @@ t_dinning	*create_dinning(int argc, char *argv[])
 	return (dinning);
 }
 
-void freeAll(t_philosopher *head)
-{
-	t_philosopher	*tmp;
-
-	tmp = head;
-	while (head->next != NULL)
-    {
-		pthread_mutex_destroy(&head->fork);
-		pthread_mutex_destroy(&head->is_eating);
-		tmp = head;
-		head = head->next;
-		free(tmp);
-    }
-}
-
 void	new_philosopher(int philo_counter, t_dinning *dinning,
 						t_philosopher **head)
 {
@@ -70,18 +85,4 @@ void	new_philosopher(int philo_counter, t_dinning *dinning,
 	else
 		sample->next = sample;
 	*head = sample;
-}
-
-t_philosopher	*get_next_fork(t_philosopher *philosopher, int flag)
-{
-	t_philosopher	*temp;
-
-	temp = philosopher;
-	while (1)
-	{
-		if (!((temp->philosopher % 2) - flag) && temp->fork_freed)
-			return (temp);
-		temp = temp->next;
-	}
-	return (NULL);
 }
