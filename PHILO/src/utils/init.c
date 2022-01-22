@@ -1,4 +1,5 @@
 #include "../../inc/philo.h"
+#include <pthread.h>
 
 t_dinning	*create_dinning(int argc, char *argv[])
 {
@@ -28,6 +29,21 @@ t_dinning	*create_dinning(int argc, char *argv[])
 			return (NULL);
 	gettimeofday(&dinning->starting_time, NULL);
 	return (dinning);
+}
+
+void freeAll(t_philosopher *head)
+{
+	t_philosopher	*tmp;
+
+	tmp = head;
+	while (head->next != NULL)
+    {
+		pthread_mutex_destroy(&head->fork);
+		pthread_mutex_destroy(&head->is_eating);
+		tmp = head;
+		head = head->next;
+		free(tmp);
+    }
 }
 
 void	new_philosopher(int philo_counter, t_dinning *dinning,

@@ -52,5 +52,7 @@ int	main(int argc, char *argv[])
 		pthread_join(philosopher->philo_id, NULL);
 		pthread_join(philosopher->death_id, NULL);
 	}
+	free(dinning);
+	freeAll(philosopher);
 	return (0);
 }

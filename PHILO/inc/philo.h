@@ -48,4 +48,5 @@ void			*routine(void *args);
 
 t_philosopher	*get_next_fork(t_philosopher *philosopher, int flag);
 int				ft_atoi(const char *str);
+void			freeAll(t_philosopher *head);
 #endif
