@@ -1,4 +1,4 @@
-#include "../inc/philo.h"
+#include "../../inc/philo.h"
 #include <stdio.h>
 
 void	*check_death(void *args)
@@ -9,8 +9,9 @@ void	*check_death(void *args)
 	while (*(life->dinning->someone_died))
 	{
 		pthread_mutex_lock(&life->is_eating);
-		if (since_last_meal(life) >= life->dinning->options[time_to_die]
-			&& *(life->dinning->someone_died))
+		if ((since_last_meal(life) >= life->dinning->options[time_to_die] ||
+			!life->dinning->options[must_eat]) &&
+			*(life->dinning->someone_died))
 		{	
 			*(life->dinning->someone_died) = 0;
 			printf("%d\t%d " "\033[0;45m" "died" "\033[0m" ".\n",
@@ -42,6 +43,7 @@ static void	eat(t_philosopher *life)
 			get_time_passed(life->dinning, NULL), life->philosopher);
 		usleep(life->dinning->options[time_to_eat] * 1000);
 		gettimeofday(&(life->last_meal), NULL);
+		life->dinning->options[must_eat]--;
 		pthread_mutex_unlock(&life->is_eating);
 	}
 	pthread_mutex_unlock(&mutex[0]->fork);

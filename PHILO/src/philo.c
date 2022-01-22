@@ -35,6 +35,8 @@ int	main(int argc, char *argv[])
 	t_philosopher	*philosopher;
 
 	dinning = create_dinning(argc, argv);
+	if(!dinning)
+		return(printf("Error.\n"));
 	philosopher = NULL;
 	number_of_philo = 0;
 	while (number_of_philo++ < dinning->options[num_of_philosophers])

@@ -32,6 +32,7 @@ typedef struct s_philosopher
 	struct timeval			last_meal;
 	pthread_mutex_t			fork;
 	int						fork_freed;
+	int						ate;
 	t_dinning				*dinning;
 }	t_philosopher;
 
