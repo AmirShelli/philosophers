@@ -17,10 +17,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
-#include <sys/wait.h>
 #include "../inc/philo_bonus.h"
 #include <semaphore.h>
-#include <signal.h>
 
 static void	ft_run(t_info *z)
 {

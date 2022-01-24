@@ -11,12 +11,6 @@
 /* ************************************************************************** */
 
 #include "../inc/philo_bonus.h"
-#include <stdlib.h>
-#include <sys/time.h>
-#include <pthread.h>
-#include <string.h>
-#include <stdio.h>
-#include <semaphore.h>
 
 void	ft_init_data(t_info *x)
 {

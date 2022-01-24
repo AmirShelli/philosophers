@@ -14,6 +14,14 @@
 # define PHILO_BONUS_H
 
 # include <semaphore.h>
+# include <fcntl.h>
+# include <stdlib.h>
+# include <sys/time.h>
+# include <pthread.h>
+# include <string.h>
+# include <stdio.h>
+# include <sys/wait.h>
+# include <signal.h>
 
 typedef struct s_info
 {

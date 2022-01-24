@@ -7,24 +7,22 @@ BONUS_SRCS =  $(shell find . -type f -name "*_bonus.c")
 OBJS = $(SRCS:.c=.o)
 BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 
-HEADER = $(wildcard ./philo_mandatory/inc/*.h)
-HEADER_BONUS = $(wildcard ./philo_bonus/inc/*.h)
+HEADER = $(wildcard ./philo_m/inc/*.h)
+HEADER_BONUS = $(wildcard ./philo_b/inc/*.h)
 
 CC = gcc -Wall -Werror -Wextra
 
 $(NAME): $(OBJS) $(HEADER)
-	$(CC) -pthread $(OBJS) -o $(NAME)
+	@$(CC) -pthread -I ./philo_m/inc $(OBJS) -o $(NAME)
 
 bonus: $(BONUS_OBJS) $(HEADER_BONUS)
-	@$(CC) -I ./philo_bonus/inc $(BONUS_OBJS) -o $(BONUS)
+	@$(CC) -pthread  -I ./philo_b/inc $(BONUS_OBJS) -o $(BONUS)
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -I ./philo_mandatory/inc $< -c -o $@
+	@$(CC) $(CFLAGS) $< -c -o $@
 
 clean:
-	@rm -rf $(wildcard ./*.o)
-	@rm -rf $(wildcard ./*/*.o)
-	@rm -rf $(wildcard ./*/*/*.o)
+	@rm -rf $(shell find . -type f -name "*.o")
 
 fclean : clean
 	@rm -rf $(NAME)
