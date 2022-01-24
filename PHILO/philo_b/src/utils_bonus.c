@@ -1,23 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mikgarci <mikgarci@student.42urduli>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/10 20:35:50 by mikgarci          #+#    #+#             */
-/*   Updated: 2022/01/21 20:53:41 by mikgarci         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>  
-#include <pthread.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/time.h>
-#include <semaphore.h>
 #include "../inc/philo_bonus.h"
 
 size_t	ft_checktime(long ref)

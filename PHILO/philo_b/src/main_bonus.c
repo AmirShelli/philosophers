@@ -1,24 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mikgarci <mikgarci@student.42urduli>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/10 20:33:26 by mikgarci          #+#    #+#             */
-/*   Updated: 2022/01/21 20:53:41 by mikgarci         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>  
-#include <pthread.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/time.h>
 #include "../inc/philo_bonus.h"
-#include <semaphore.h>
 
 static void	ft_run(t_info *z)
 {

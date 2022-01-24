@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mikgarci <mikgarci@student.42urduli>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/10 20:29:49 by mikgarci          #+#    #+#             */
-/*   Updated: 2022/01/21 20:53:40 by mikgarci         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
 
@@ -22,6 +10,7 @@
 # include <stdio.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include <unistd.h>
 
 typedef struct s_info
 {
