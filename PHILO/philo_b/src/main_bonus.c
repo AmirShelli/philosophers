@@ -5,10 +5,9 @@ static void	ft_run(t_info *z)
 	while (1)
 	{
 		sem_wait(z->forks);
-		ft_print("has taken a fork", z);
-		usleep(50);
+		ft_print("has " "\033[0;31m" "taken a fork" "\033[0m" ".", z);
 		sem_wait(z->forks);
-		ft_print("has taken a fork", z);
+		ft_print("has " "\033[0;31m" "taken a fork" "\033[0m" ".", z);
 		ft_eat(z);
 		sem_post(z->forks);
 		sem_post(z->forks);
