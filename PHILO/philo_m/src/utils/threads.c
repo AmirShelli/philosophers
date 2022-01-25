@@ -34,12 +34,15 @@ static void	eat(t_philosopher *life)
 	pthread_mutex_lock(&life->is_eating);
 	if (*(life->dinning->someone_died))
 	{
+		if (*(life->dinning->someone_died))
+		{
 		printf("%d\t%d has " "\033[0;31m" "taken a fork" "\033[0m" ".\n",
 			get_time_passed(life->dinning, NULL), life->philosopher);
 		printf("%d\t%d has " "\033[0;31m" "taken a fork" "\033[0m" ".\n",
 			get_time_passed(life->dinning, NULL), life->philosopher);
 		printf("%d\t%d is" "\033[0;32m" " eating" "\033[0m" ".\n",
 			get_time_passed(life->dinning, NULL), life->philosopher);
+		}
 		usleep(life->dinning->options[time_to_eat] * 1000);
 		gettimeofday(&(life->last_meal), NULL);
 		life->dinning->options[must_eat]--;

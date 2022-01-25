@@ -7,7 +7,7 @@ void freeAll(t_philosopher *head)
 	t_philosopher	*tmp;
 
 	tmp = head;
-	while (head->next != NULL)
+	while (head->next->next != NULL)
     {
 		pthread_mutex_destroy(&head->fork);
 		pthread_mutex_destroy(&head->is_eating);

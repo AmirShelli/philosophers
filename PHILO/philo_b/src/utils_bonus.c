@@ -31,7 +31,7 @@ void	ft_isdead(t_info *z)
 
 	gettimeofday (&current_time, NULL);
 	refin = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
-	if (refin - z->timedie > 0)
+	if (refin - z->options[time_to_die] > 0)
 	{
 		sem_wait(z->die);
 		printf("%ld %zu " "\033[0;45m" "died" "\033[0m" ".\n", refin - z->timestart, z->ph);
@@ -51,13 +51,13 @@ void	ft_eat(t_info *z)
 	{
 		usleep(200);
 		ft_isdead(z);
-		if (ft_checktime(refin) >= z->timetoeat)
+		if (ft_checktime(refin) >= z->options[time_to_eat])
 			break ;
 	}
 	gettimeofday (&current_time, NULL);
 	refin = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
-	z->timedie = refin + z->timeincrease;
-	z->eattimes--;
+	z->options[time_to_die] = refin + z->timeincrease;
+	z->options[time_to_eat]--;
 }
 
 void	ft_sleep(t_info *z)
@@ -71,7 +71,7 @@ void	ft_sleep(t_info *z)
 	while (1)
 	{
 		usleep(200);
-		if (ft_checktime(refin) >= z->timetosleep)
+		if (ft_checktime(refin) >= z->options[time_to_sleep])
 			break ;
 	}
 	ft_print("is " "\033[0;35m" "thinking" "\033[0m" ".", z);

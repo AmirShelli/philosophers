@@ -1,8 +1,8 @@
 NAME = philo
 BONUS = philo_bonus
 
-SRCS =  $(shell find . -type f -name "*.c" ! -name "*_bonus.c")
-BONUS_SRCS =  $(shell find . -type f -name "*_bonus.c")
+SRCS =  $(shell find ./philo_m -type f -name "*.c")
+BONUS_SRCS =  $(shell find ./philo_b -type f -name "*.c")
 
 OBJS = $(SRCS:.c=.o)
 BONUS_OBJS = $(BONUS_SRCS:.c=.o)

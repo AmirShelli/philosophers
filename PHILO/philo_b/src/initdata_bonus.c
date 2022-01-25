@@ -2,12 +2,12 @@
 
 void	ft_init_data(t_info *x)
 {
-	x->id = malloc((x->totph + 1) * sizeof(int));
-	memset(x->id, 0, x->totph + 1);
+	x->id = malloc((x->options[num_of_philosophers] + 1) * sizeof(int));
+	memset(x->id, 0, x->options[num_of_philosophers] + 1);
 	sem_unlink("/forks");
 	sem_unlink("/print");
 	sem_unlink("/die");
-	x->forks = sem_open("/forks", O_CREAT, 0644, x->totph);
+	x->forks = sem_open("/forks", O_CREAT, 0644, x->options[num_of_philosophers]);
 	x->print = sem_open("/print", O_CREAT, 0644, 1);
 	x->die = sem_open("/die", O_CREAT, 0644, 1);
 	x->start = sem_open("/start", O_CREAT, 0644, 0);

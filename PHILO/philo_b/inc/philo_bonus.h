@@ -12,23 +12,30 @@
 # include <signal.h>
 # include <unistd.h>
 
+enum e_options
+{
+	num_of_philosophers,
+	time_to_die,
+	time_to_eat,
+	time_to_sleep,
+	must_eat
+};
+
+
+
 typedef struct s_info
 {
 	int				*id;
 	size_t			ph;
 	long			timestart;
-	long			timedie;
-	size_t			timetoeat;
-	size_t			timetosleep;
+	size_t				*options;
 	size_t			timeincrease;
-	size_t			eattimes;
-	size_t			totph;
 	sem_t			*forks;	
 	sem_t			*print;
 	sem_t			*die;
 	sem_t			*start;
 }	t_info;
-
+int		ft_atoi(const char *str);
 int		set_data(t_info *x, char **argv, int argc);
 void	ft_init_data(t_info *x);
 void	ft_free_info(t_info *x);
