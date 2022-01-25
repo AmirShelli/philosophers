@@ -1,52 +1,66 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bharghaz <bharghaz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/25 22:06:41 by bharghaz          #+#    #+#             */
+/*   Updated: 2022/01/25 22:06:43 by bharghaz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
+
 # include <stdio.h>
+# include <pthread.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <pthread.h>
 # include <sys/time.h>
 
-enum e_options
+typedef struct s_phil
 {
-	num_of_philosophers,
-	time_to_die,
-	time_to_eat,
-	time_to_sleep,
-	must_eat
-};
+	int				number;
+	pthread_t		thread;
+	pthread_t		death_thread;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	death;
+	struct s_args	*args;
+	long			last_eating;
+	int				eat_count;
+	int				finish_eat;
+}	t_phil;
 
-typedef struct s_dinning
+typedef struct s_args
 {
-	struct timeval	starting_time;
-	int				*someone_died;
-	int				options[6];
-}	t_dinning;
+	t_phil			*phils;
+	pthread_t		death_thread;
+	pthread_mutex_t	*forks;
+	int				philo_qty;
+	int				time_die;
+	int				time_eat;
+	int				time_sleep;
+	int				cycles;
+	long			timer_start;
+	int				eat_total;
+	int				join;
+	int				exit;
+	int				finish;
+}	t_args;
 
-typedef struct s_philosopher
-{
-	struct s_philosopher	*next;
-	int						philosopher;
-	pthread_t				philo_id;
-	pthread_t				death_id;
-	pthread_mutex_t			is_eating;
-	struct timeval			last_meal;
-	pthread_mutex_t			fork;
-	int						fork_freed;
-	int						ate;
-	t_dinning				*dinning;
-}	t_philosopher;
+int		save_args(t_args *args, int argc, char **argv);
+int		init_forks(t_args *args);
+int		init_philosophers(t_args *args);
+int		destroy_mutexes(t_args *args);
+void	*check_death(void *argument);
 
-t_dinning		*create_dinning(int argc, char *argv[]);
-void			new_philosopher(int philo_counter, t_dinning *dinning,
-					t_philosopher **head);
+int		ft_atoi(const char *str);
+void	print_status(t_phil *phil, char *msg);
+int		error_return(char *msg);
+int		error_clean(char *msg, t_args *args);
+long	get_start_time(void);
+long	get_time(t_args *args);
 
-int				get_time_passed(t_dinning *life, struct timeval *time);
-long int		since_last_meal(t_philosopher *life);
-
-void			*check_death(void *args);
-void			*routine(void *args);
-
-t_philosopher	*get_next_fork(t_philosopher *philosopher, int flag);
-int				ft_atoi(const char *str);
-void			freeAll(t_philosopher *head);
 #endif
