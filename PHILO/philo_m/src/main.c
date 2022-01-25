@@ -6,7 +6,7 @@
 /*   By: bharghaz <bharghaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:06:09 by bharghaz          #+#    #+#             */
-/*   Updated: 2022/01/25 22:06:11 by bharghaz         ###   ########.fr       */
+/*   Updated: 2022/01/25 22:33:28 by bharghaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ void	*ph_live(void *argument)
 		&& phil->args->finish == 0)
 	{
 		pthread_mutex_lock(phil->left_fork);
-		print_status(phil, "has taken a fork");
+		print_status(phil, "has " "\033[0;31m" "taken a fork" "\033[0m" ".");
 		pthread_mutex_lock(phil->right_fork);
-		print_status(phil, "has taken a fork");
+		print_status(phil, "has " "\033[0;31m" "taken a fork" "\033[0m" ".");
 		pthread_mutex_lock(&phil->death);
 		phil->last_eating = get_time(phil->args);
-		print_status(phil, "is eating");
+		print_status(phil, "is" "\033[0;32m" " eating" "\033[0m" ".");
 		usleep(phil->args->time_eat * 1000);
 		phil->eat_count++;
 		if (phil->eat_count == phil->args->cycles)
@@ -34,9 +34,9 @@ void	*ph_live(void *argument)
 		pthread_mutex_unlock(&phil->death);
 		pthread_mutex_unlock(phil->right_fork);
 		pthread_mutex_unlock(phil->left_fork);
-		print_status(phil, "is sleeping");
+		print_status(phil, "is " "\033[0;37m" "sleeping" "\033[0m" ".");
 		usleep(phil->args->time_sleep * 1000);
-		print_status(phil, "is thinking");
+		print_status(phil, "is " "\033[0;35m" "thinking" "\033[0m" ".");
 	}
 	return (NULL);
 }

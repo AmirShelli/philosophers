@@ -6,7 +6,7 @@
 /*   By: bharghaz <bharghaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:06:05 by bharghaz          #+#    #+#             */
-/*   Updated: 2022/01/25 22:06:25 by bharghaz         ###   ########.fr       */
+/*   Updated: 2022/01/25 22:34:07 by bharghaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	init_forks(t_args *args)
 	return (0);
 }
 
-/*	return 0 if ok, 1 if error */
+/* return 0 if ok, 1 if error */
 int	init_philosophers(t_args *args)
 {
 	int	i;

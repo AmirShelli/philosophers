@@ -1,42 +1,33 @@
-FILES = main		\
-      initdata		\
-      checkinput	\
-	  utils			\
-      
 NAME = philo_bonus
+BONUS = philo
 
-CC = clang
+SRCS =  $(shell find . -type f -name "*.c")
+BONUS_SRCS =  $(shell find . -type f -name "*.c")
 
-INC = -I inc/
+OBJS = $(SRCS:.c=.o)
+BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 
-CFLAGS = -Wall -Werror -Wextra #-g3 -fsanitize=address 
+HEADER = $(wildcard ./inc/*.h)
+HEADER_BONUS = $(wildcard ./inc/*.h)
 
-SRC_DIR = src/
-OBJ_DIR = obj/
+CC = gcc -Wall -Werror -Wextra
 
-SRC = $(addprefix $(SRC_DIR), $(addsuffix _bonus.c, $(FILES)))
-OBJ = $(addprefix $(OBJ_DIR), $(addsuffix _bonus.o, $(FILES)))
+$(NAME): $(OBJS) $(HEADER)
+	@$(CC) -pthread -I ./inc $(OBJS) -o $(NAME)
 
-all: $(NAME)
+bonus: $(BONUS_OBJS) $(HEADER_BONUS)
+	@$(CC) -pthread  -I ./inc $(BONUS_OBJS) -o $(NAME)
 
-$(NAME): $(OBJ_DIR) $(OBJ)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
+%.o: %.c
+	@$(CC) $(CFLAGS) $< -c -o $@
 
-#$(OBJ): $(SRC) | $(OBJ_DIR)
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INC) -c $^ -o $@
-
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
-
-clean :
-	$(RM) $(OBJ)
-	$(RM) -r $(OBJ_DIR)
-	$(RM) -r *.dSYM
+clean:
+	@rm -rf $(shell find . -type f -name "*.o")
 
 fclean : clean
-	$(RM) $(NAME)
+	@rm -rf $(NAME)
+	@rm -rf $(BONUS)
 
-re: fclean all
+re : fclean all
 
-.PHONY : clean fclean all re
+.PHONY: all libft clean fclean re

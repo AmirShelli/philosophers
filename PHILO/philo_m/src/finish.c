@@ -6,7 +6,7 @@
 /*   By: bharghaz <bharghaz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 22:05:45 by bharghaz          #+#    #+#             */
-/*   Updated: 2022/01/25 22:05:53 by bharghaz         ###   ########.fr       */
+/*   Updated: 2022/01/25 22:37:26 by bharghaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	finish_norm(t_args *args)
 {
 	args->finish = 1;
 	usleep(500);
-	printf("Everyone has eaten\n");
+	printf("Everyone has eaten.\n");
 }
 
 static void	finish_death(t_phil *phil)
@@ -24,7 +24,8 @@ static void	finish_death(t_phil *phil)
 	pthread_mutex_lock(&phil->death);
 	phil->args->cycles = 1;
 	phil->args->exit = 1;
-	printf("%ld %d died\n", get_time(phil->args), phil->number);
+	printf("%ld %d " "\033[0;45m" "died" "\033[0m" ".\n",
+		get_time(phil->args), phil->number);
 	pthread_mutex_unlock(&phil->death);
 }
 
